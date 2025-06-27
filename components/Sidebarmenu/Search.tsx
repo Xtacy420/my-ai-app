@@ -7,6 +7,7 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
+import LayoutDebugWrapper from '../LayoutDebugWrapper'; // ✅ Import the wrapper
 
 const categories = ['All', 'Characters', 'Folders', 'Chats'];
 const times = ['Anytime', 'Today', 'This Week', 'This Month'];
@@ -18,7 +19,7 @@ export default function Search() {
   const [filtersVisible, setFiltersVisible] = useState(false);
 
   return (
-    <View style={styles.container}>
+    <LayoutDebugWrapper debugId="search" style={styles.container}>
       {/* Search Input */}
       <TextInput
         style={styles.input}
@@ -89,7 +90,7 @@ export default function Search() {
             ))}
           </View>
 
-          {/* Date Range Filter (placeholder) */}
+          {/* Date Range Filter */}
           <View style={styles.filterRow}>
             <Text style={styles.filterLabel}>Date Range:</Text>
             <TextInput style={styles.dateInput} placeholder="Start Date" />
@@ -98,7 +99,7 @@ export default function Search() {
           </View>
         </View>
       )}
-    </View>
+    </LayoutDebugWrapper>
   );
 }
 

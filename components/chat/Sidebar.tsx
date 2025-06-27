@@ -1,3 +1,4 @@
+//app/components/chat/sidebar.tsx
 import { useRouter } from 'expo-router';
 import React from 'react';
 import { ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
@@ -59,7 +60,7 @@ export default function Sidebar({
       {/* Home button at the bottom */}
       <TouchableOpacity
         style={styles.homeButton}
-        onPress={() => router.push('/profile')}
+        onPress={() => router.push('/activity')}
       >
         <Text style={styles.homeButtonText}>Home</Text>
       </TouchableOpacity>

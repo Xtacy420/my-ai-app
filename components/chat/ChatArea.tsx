@@ -1,3 +1,4 @@
+// app/components/chat/ChatArea.tsx
 import React, { useEffect, useState } from 'react';
 import {
   KeyboardAvoidingView,
@@ -9,6 +10,7 @@ import {
 
 import ChatHeader from '../../components/chat/ChatHeader';
 import InputArea from '../../components/chat/InputArea';
+import LayoutDebugWrapper from '../LayoutDebugWrapper'; // Import wrapper
 
 interface Chat {
   id: string;
@@ -36,7 +38,6 @@ export default function ChatArea({
   const [message, setMessage] = useState('');
   const [messagesByChat, setMessagesByChat] = useState<{ [chatId: string]: Message[] }>({});
 
-  // Ensure messages exist for this chat
   useEffect(() => {
     if (!messagesByChat[selectedChat.id]) {
       setMessagesByChat((prev) => ({
@@ -60,42 +61,47 @@ export default function ChatArea({
   const currentMessages = messagesByChat[selectedChat.id] || [];
 
   return (
-    <KeyboardAvoidingView
-      behavior={Platform.OS === 'ios' ? 'padding' : undefined}
-      style={[
-        styles.chatArea,
-        !isDesktop && styles.chatAreaMobile,
-        !sidebarVisible && !isDesktop && { flex: 1 },
-      ]}
-      keyboardVerticalOffset={Platform.OS === 'ios' ? 80 : 0}
+    <LayoutDebugWrapper
+      debugId="chatArea" // assign debugId for this area
+      style={{ flex: 1 }} // full flex for wrapper
     >
-      <ChatHeader toggleSidebar={toggleSidebar} />
+      <KeyboardAvoidingView
+        behavior={Platform.OS === 'ios' ? 'padding' : undefined}
+        style={[
+          styles.chatArea,
+          !isDesktop && styles.chatAreaMobile,
+          !sidebarVisible && !isDesktop && { flex: 1 },
+        ]}
+        keyboardVerticalOffset={Platform.OS === 'ios' ? 80 : 0}
+      >
+        <ChatHeader toggleSidebar={toggleSidebar} />
 
-      <ScrollView style={styles.messageList}>
-        {currentMessages.length === 0 ? (
-          <Text style={styles.messageText}>Start chatting with {selectedChat.name}</Text>
-        ) : (
-          currentMessages.map((msg, idx) => (
-            <Text
-              key={idx}
-              style={[
-                styles.messageText,
-                msg.sender === 'user' ? styles.userMessage : styles.aiMessage,
-              ]}
-            >
-              {msg.sender === 'user' ? 'You: ' : 'AI: '}
-              {msg.text}
-            </Text>
-          ))
-        )}
-      </ScrollView>
+        <ScrollView style={styles.messageList}>
+          {currentMessages.length === 0 ? (
+            <Text style={styles.messageText}>Start chatting with {selectedChat.name}</Text>
+          ) : (
+            currentMessages.map((msg, idx) => (
+              <Text
+                key={idx}
+                style={[
+                  styles.messageText,
+                  msg.sender === 'user' ? styles.userMessage : styles.aiMessage,
+                ]}
+              >
+                {msg.sender === 'user' ? 'You: ' : 'AI: '}
+                {msg.text}
+              </Text>
+            ))
+          )}
+        </ScrollView>
 
-      <InputArea
-        message={message}
-        setMessage={setMessage}
-        onSend={handleSend}
-      />
-    </KeyboardAvoidingView>
+        <InputArea
+          message={message}
+          setMessage={setMessage}
+          onSend={handleSend}
+        />
+      </KeyboardAvoidingView>
+    </LayoutDebugWrapper>
   );
 }
 

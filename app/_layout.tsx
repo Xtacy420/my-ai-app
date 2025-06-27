@@ -3,6 +3,7 @@ import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native
 import { useFonts } from 'expo-font';
 import { Slot } from 'expo-router';
 import { useColorScheme, View } from 'react-native';
+import { LayoutDebuggingProvider } from '../context/LayoutDebuggingContext';
 
 export default function RootLayout() {
   const colorScheme = useColorScheme();
@@ -14,10 +15,12 @@ export default function RootLayout() {
   if (!loaded) return null;
 
   return (
-    <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
-      <View style={{ flex: 1 }}>
-        <Slot /> {/* Renders the matched page (e.g. home.tsx, login.tsx, etc.) */}
-      </View>
-    </ThemeProvider>
+    <LayoutDebuggingProvider>
+      <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
+        <View style={{ flex: 1 }}>
+          <Slot />
+        </View>
+      </ThemeProvider>
+    </LayoutDebuggingProvider>
   );
 }

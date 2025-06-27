@@ -1,6 +1,7 @@
-//components/chat/ChatHeader.tsx
+// components/chat/ChatHeader.tsx
 import React from 'react';
-import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { StyleSheet, Text, TouchableOpacity } from 'react-native';
+import LayoutDebugWrapper from '../LayoutDebugWrapper';
 
 interface ChatHeaderProps {
   toggleSidebar: () => void;
@@ -8,12 +9,12 @@ interface ChatHeaderProps {
 
 export default function ChatHeader({ toggleSidebar }: ChatHeaderProps) {
   return (
-    <View style={styles.chatHeader}>
+    <LayoutDebugWrapper debugId="header" style={styles.chatHeader}>
       <TouchableOpacity onPress={toggleSidebar} style={styles.menuButton}>
         <Text style={styles.menuButtonText}>☰</Text>
       </TouchableOpacity>
       {/* Chat name removed as requested */}
-    </View>
+    </LayoutDebugWrapper>
   );
 }
 
